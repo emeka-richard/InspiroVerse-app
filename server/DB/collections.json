@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "title": "Lexus",
+        "model": 2025
+    },
+    {
+        "id": 2,
+        "title": "Honda",
+        "model": 2025
+    },
+    {
+        "id": 3,
+        "title": "Mecedes Benz",
+        "model": 2025
+    }
+]
