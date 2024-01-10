@@ -1,5 +1,6 @@
 <template>
-  <form v-if="!computedData.formStatus" @submit.prevent="login">
+  <form @submit.prevent="login">
+  <!-- <form v-if="!computedData.formStatus" @submit.prevent="login"> -->
     <section class="form-header">
       <h1 class="form-title">{{ formTitle }}</h1>
       <h2 @click="setFormClose">&times;</h2>
@@ -31,11 +32,17 @@
 
 <script setup>
 import BaseInput from "@/components/form-components/BaseInput.vue";
-import { ref, computed } from "vue";
+import { ref, computed, onBeforeMount } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useStore } from "vuex";
 const store = useStore();
 const router = useRouter();
+
+const computedData = computed(() => {
+  const loggedInUser = store.getters.getUserData;
+  const formStatus = store.getters.getFormStatus;
+  return { loggedInUser, formStatus };
+});
 
 const formTitle = "InspiroVerse";
 
@@ -58,22 +65,22 @@ const login = async () => {
     .dispatch("login", userToBeAuthenticated)
     .then(() => {
       router.push({ name: "dashboard" });
+      // if(computedData.value.loggedInUser) router.push({ name: "dashboard" });
     })
     .catch((errMSG) => {
       errorMessage.value = errMSG.message;
     });
 };
 
-const computedData = computed(() => {
-  const loggedInUser = store.getters.getUserData;
-  const formStatus = store.getters.getFormStatus;
-  return { loggedInUser, formStatus };
-});
 
 const setFormClose = () => {
   store.dispatch("setFormStatus");
   router.push({ name: "hero-page" });
 };
+
+onBeforeMount(()=>{
+  store.dispatch("setFormStatus", "login")
+})
 </script>
 
 <style scoped>

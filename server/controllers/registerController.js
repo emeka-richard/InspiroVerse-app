@@ -18,7 +18,7 @@ const addNewUser = async (req, res) => {
     return res.status(400).json({ message: "username and password required!" });
   }
   const conflictingUser = userDB.find((existingUser) => existingUser.email === user.email)
-  if (conflictingUser) return res.status(409).json({message: "This email is not allowed!"});
+  if (conflictingUser) return res.status(409).json({message: "Not a valid email."});
   try {
     const hashedPWD = await bcrypt.hash(user.pwd, 10);
     const hashedUser = {
@@ -53,6 +53,7 @@ const addNewUser = async (req, res) => {
       loggedIn: hashedUser.loggedIn,
       token: accessToken
     };
+    res.cookie("jwt", refreshToken, { httpOnly: true, sameSite: "None", secure: true, maxAge: 24 * 60 * 60 * 1000})
     res.status(201).json(registeredUser);
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });

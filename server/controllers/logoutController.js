@@ -7,33 +7,60 @@ const logoutExistingUser = async (req, res) => {
   const cookies = req.cookies;
   const userData = req.body;
 
-  console.log(cookies)
+  // console.log(cookies);
+  console.log(userData);
 
-  if (!cookies?.jwt) return res.status(204).json({message: "user logged out"});
-
-  console.log(userData)
+  if (!cookies?.jwt) {
+    const otherUsers = usersDB.filter((user) => user.email !== userData.email);
+    const currentUser = usersDB.find((user) => user.email === userData.email);
+    const loggedOutUser = {...currentUser, loggedIn: false, refreshToken: ""}
+    mutatingUserDB([...otherUsers, loggedOutUser]);
+    await fsPromise.writeFile(
+      path.join(__dirname, "..", "DB", "users.json"),
+      JSON.stringify(usersDB)
+    );
+    // console.log(loggedOutUser);
+    return res.status(204).json({ message: "user logged out" });
+  }
 
   const refreshToken = cookies.jwt;
   const existingdUser = usersDB.find(
     (user) => user.refreshToken === refreshToken
   );
   if (!existingdUser) {
-    res.clearCookie("jwt", { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
-    return res.status(204).json({message: "user logged out"});
+    const otherUsers = usersDB.filter((user) => user.email !== userData.email);
+    const currentUser = usersDB.find((user) => user.email === userData.email);
+    const loggedOutUser = {...currentUser, loggedIn: false, refreshToken: ""}
+    mutatingUserDB([...otherUsers, loggedOutUser]);
+    await fsPromise.writeFile(
+      path.join(__dirname, "..", "DB", "users.json"),
+      JSON.stringify(usersDB)
+    );
+    // console.log(loggedOutUser);
+
+    res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true, maxAge: 24 * 60 * 60 * 1000});
+    return res.status(204).json({ message: "user logged out" });
   }
   const otherUsers = usersDB.filter(
-    (user) => user.refreshToken !== existingdUser.refreshToken
+    (user) => user.email !== existingdUser.email
   );
-  const currentUser = { ...existingdUser, refreshToken: "", loggedIn: false };
+  const currentUser = {...existingdUser, loggedIn: false, refreshToken: ""};
+  // const currentUser = {
+  //   name:  existingdUser.name,
+  //   email: existingdUser.email,
+  //   gender: existingdUser.gender,
+  //   country: existingdUser.country,
+  //   pwd: existingdUser.pwd,
+  //   loggedIn: false,
+  //   refreshToken: ""
+  // };
   mutatingUserDB([...otherUsers, currentUser]);
-  console.log(currentUser)
-
   await fsPromise.writeFile(
     path.join(__dirname, "..", "DB", "users.json"),
     JSON.stringify(usersDB)
   );
-  res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true }); //in production, you should set 'secure: true'
-  res.status(204).json({message: "user logged out"});
+  res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true, maxAge: 24 * 60 * 60 * 1000});
+  res.status(204).json({ message: "user logged out" });
 };
 
-module.exports = { logoutExistingUser }
+module.exports = { logoutExistingUser };

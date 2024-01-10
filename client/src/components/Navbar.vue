@@ -68,7 +68,7 @@ import { useRouter } from "vue-router";
 const store = useStore();
 const router = useRouter();
 
-const components = defineComponent({ SvgIcon });
+// const components = defineComponent({ SvgIcon });
 // const svgIconLogo = mdiStoreMarker;
 let svgIconPath = ref(mdiMenuOpen);
 let isDropDown = ref(false);
@@ -79,6 +79,7 @@ const computedProps = computed(() => {
   const userData = store.getters.getUser
   return { formStatus, userStatus, userData };
 });
+console.log(computedProps.value.formStatus)
 
 const navbarContents = {
   logo: "InspiroVerse",
@@ -176,7 +177,7 @@ nav {
   display: flex;
   /* text-align: center; */
   justify-content: space-between;
-  padding: clamp(0.5rem, 5vw, 1rem) clamp(1rem, 8vw, 1.25rem);
+  padding: clamp(0.5rem, 3vw, 1rem) clamp(1rem, 5vw, 1.25rem);
   background: transparent;
   /* border-bottom: 1px solid var(--bg-color-3); */
   box-shadow: 0rem 0.0625rem 0.25rem 0.125rem rgba(255, 255, 255, 0.1);

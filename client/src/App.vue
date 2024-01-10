@@ -8,11 +8,12 @@
 <script setup>
 import Navbar from "@/components/Navbar.vue";
 import { onBeforeMount } from "vue";
-import { RouterView } from "vue-router";
+import { RouterView, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import axios from "axios";
 
-const store = useStore();
+const store = useStore()
+const router = useRouter()
 
 onBeforeMount(() => {
   const userProp = localStorage.getItem("user");
@@ -21,6 +22,7 @@ onBeforeMount(() => {
   if (userProp) {
     const userDataJSON = JSON.parse(userProp);
     store.commit("SET_USER_DATA", userDataJSON);
+    router.push({name: "dashboard"})
   }
   if (formStatus === "false") {
     store.commit("SET_FORM", "login");
@@ -49,7 +51,6 @@ main {
   align-items: center;
   justify-content: center;
   width: 100%;
-  /* max-width: 1000px; */
   height: 100vh;
   background: var(--word-color-4);
 }

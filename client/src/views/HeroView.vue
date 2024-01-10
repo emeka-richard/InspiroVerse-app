@@ -1,5 +1,5 @@
 <template>
-  <section class="hero-section">
+  <section v-if="computedProps.formStatus === true" class="hero-section">
     <h1>{{ welcomeText.h1 }}</h1>
     <section class="hero-sub-section">
       <h2>{{ welcomeText.h2 }}</h2>
@@ -15,8 +15,16 @@
 <script setup>
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { computed } from "vue";
 const store = useStore();
 const router = useRouter();
+
+const computedProps = computed(() => {
+  const formStatus = store.getters.getFormStatus;
+  // const userStatus = store.getters.getUserData;
+  // const userData = store.getters.getUser
+  return { formStatus };
+});
 
 const welcomeText = {
   h1: "InspiroVerse",

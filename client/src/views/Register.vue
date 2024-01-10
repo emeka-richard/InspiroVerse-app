@@ -1,5 +1,6 @@
 <template>
-  <form v-if="!computedData.formStatus" @submit.prevent="register">
+  <form @submit.prevent="register">
+  <!-- <form v-if="!computedData.formStatus" @submit.prevent="register"> -->
     <div class="form-header">
       <h1 class="form-title">{{ formTitle }}</h1>
       <h2 @click="setFormClose">&times;</h2>
@@ -55,7 +56,7 @@
 import BaseInput from "@/components/form-components/BaseInput.vue";
 // import BaseSelect from "@/components/form-components/BaseSelect.vue";
 import BaseSelect from "@/components/form-components/BaseSelect.vue";
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, onBeforeMount } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useStore } from "vuex";
 const store = useStore();
@@ -118,6 +119,11 @@ const setFormClose = () => {
     .dispatch("setFormStatus")
     .then(() => router.push({ name: "hero-page" }));
 };
+
+onBeforeMount(()=>{
+  store.dispatch("setFormStatus", "register")
+})
+
 </script>
 
 <style scoped>

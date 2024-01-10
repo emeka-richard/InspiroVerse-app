@@ -51,10 +51,24 @@ const avatar =
       padding: 1rem 1.5rem;
       box-shadow: 0rem 0.125rem 0.25rem 0.125rem rgb(0, 0, 0, 0.1);
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       justify-content: space-between;
       gap: 2rem;
+    }
+
+    .dashboard-wecome-details {
+      width: 100%;
+      max-width: max-content;
+      height: auto;
+      display: flex;
+      /* flex-direction: column; */
+      align-items: center;
+      justify-content: center;
+      gap: 0.875rem;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
     }
   }
 }
@@ -75,10 +89,28 @@ const avatar =
   padding: 1rem 1.5rem;
   box-shadow: 0rem 0.125rem 0.25rem 0.125rem rgb(0, 0, 0, 0.1);
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1rem;
 }
+
+.dashboard-wecome-details {
+  width: 100%;
+  max-width: max-content;
+  height: auto;
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  /* border: 1px solid var(--word-color-4); */
+  box-shadow: 0rem 0.125rem 0.25rem 0.125rem rgb(0, 0, 0, 0.1);
+  /* box-shadow: 0rem 0.125rem 0.25rem 0.125rem rgb(0, 0, 0, 0.1); */
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
 .user-img-tag {
   img {
     outline: 4px solid grey;
@@ -88,34 +120,27 @@ const avatar =
     height: clamp(50px, 4vw, 100px);
   }
 }
-.dashboard-wecome-details {
-  width: 100%;
-  height: auto;
-  display: flex;
-  /* flex-direction: column; */
-  align-items: center;
-  justify-content: flex-start;
-  gap: 1.25rem;
-}
-
 .dashboard-title {
   width: 100%;
-  font-size: clamp(1.25rem, 3vw, 2.125rem);
-  font-weight: 400;
+  font-size: clamp(1.125rem, 3vw, 2.125rem);
+  font-weight: 500;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   /* text-align: justify; */
 }
 .dashboard-time-holder {
-  width: 50%;
+  width: max-content;
   height: max-content;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(187, 187, 187, 0.786);
+  padding: 0.5rem;
+  border-radius: 0.375rem;
 }
-.dashboard-time-holder {
-  font-size: clamp(1rem, 3vw, 2.125rem);
+.dashboard-time-holder h3 {
+  font-size: clamp(0.625rem, 2vw, 1.25rem);
   font-weight: 300;
 }
 </style>

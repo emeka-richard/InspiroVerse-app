@@ -10,8 +10,9 @@ export default new Vuex.Store({
   },
   mutations: {
     SET_COUNTRY_DATA(state, countryName) {
-      state.countries = countryName;
-      localStorage.setItem("countries", JSON.stringify(countryName));
+      const sortedCountryData = countryName.sort()
+      state.countries = sortedCountryData;
+      localStorage.setItem("countries", JSON.stringify(sortedCountryData));
     },
     SET_USER_DATA(state, userData) {
       state.user = userData;
